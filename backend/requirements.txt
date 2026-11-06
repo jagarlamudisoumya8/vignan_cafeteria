@@ -1,6 +1,7 @@
 Flask>=3.0,<4
 Flask-Cors>=4.0,<6
 Flask-PyMongo>=2.3,<3
+gunicorn>=22,<24; platform_system != "Windows"
 PyJWT>=2.8,<3
 Werkzeug>=3.0,<4
 python-dotenv>=1.0,<2
