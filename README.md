@@ -36,6 +36,13 @@ The Vite development server runs at `http://localhost:5173` and proxies `/api` r
 
 Create a database and database user in Atlas, allow the app host in Network Access, and copy the connection string into `backend/.env` as `MONGO_URI`. The backend selects the database named by `MONGO_DB_NAME`, even when the URI has no database path. Never put the URI in frontend configuration. Collections are created on first use: `users`, `categories`, `foods`, `carts`, `orders`, and `contact_messages`.
 
+## Deploy with Vercel and Render
+
+1. Deploy the backend to Render using the repository's `render.yaml` blueprint. Set `MONGO_URI` to the MongoDB Atlas connection string and `FRONTEND_ORIGIN` to the deployed Vercel origin (for example, `https://your-app.vercel.app`). Render generates `JWT_SECRET`; keep it private. The service health check is `/api/health`.
+2. Create a Vercel project from this repository and set its **Root Directory** to `frontend`. Use the Vite preset, build command `npm run build`, and output directory `dist`.
+3. In the Vercel project's environment variables, set `VITE_API_URL` to the Render service URL followed by `/api` (for example, `https://your-api.onrender.com/api`). Set it for each environment you deploy, then redeploy so the value is included in the frontend build.
+4. If the Vercel domain changes, update Render's `FRONTEND_ORIGIN` to match it. Do not put `MONGO_URI` or `JWT_SECRET` in Vercel variables.
+
 ## Main API routes
 
 - `POST /api/auth/register` (name, register number, optional phone), `POST /api/auth/login` (name and register number), `POST /api/auth/logout`, `GET/PATCH /api/auth/profile`
